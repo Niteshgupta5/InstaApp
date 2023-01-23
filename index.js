@@ -14,7 +14,7 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors({
-  origin: ['http://localhost:3000', '*'],
+  origin: ['http://localhost:3000','https://euphonious-shortbread-d7e49c.netlify.app', '*'],
   credentials:true,            //access-control-allow-credentials:true
 }));
 app.use(cookieParser());
