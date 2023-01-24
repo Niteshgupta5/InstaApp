@@ -14,7 +14,7 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors({
-  origin: ['https://euphonious-shortbread-d7e49c.netlify.app', '*'],
+  origin: ['https://niteshgupta5-instaapp.netlify.app', '*'],
   credentials:true,            //access-control-allow-credentials:true
 }));
 app.use(cookieParser());
