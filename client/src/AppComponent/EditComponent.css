@@ -1,0 +1,47 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:700,300);
+
+
+.edit-comp .center {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 300px;
+	height: 400px;
+	border-radius: 10px;
+	box-shadow: 8px 10px 15px 0 rgba(0, 0, 0, 0.304);
+	background: #fff;
+	display: flex;
+	align-items: center;
+	justify-content: space-evenly;
+	flex-direction: column;
+    padding: 10px;
+	margin-top: 20px;
+}
+
+.edit-comp form {
+	text-align: center;
+    padding: 10px;
+}
+.edit-comp .editform input{
+    margin-top: 5px;
+    width: 100%;
+}
+
+.edit-comp .btn {
+	display: block;
+	width: 140px;
+	height: 40px;
+	/* background: darkmagenta; */
+	color: #fff;
+	border-radius: 23px;
+	border: 0;
+	box-shadow: 0 3px 0 0 rgba(220, 217, 219, 0);
+	transition: all 0.3s ease-in-out;
+	font-size: 14px;
+}
+
+.edit-comp .btn:hover {
+	background: #2f5fab;
+	box-shadow: 0 3px 0 0 rgba(255, 20, 145, 0);
+}
