@@ -14,8 +14,8 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors({
-  // origin: ['https://niteshgupta5-instaapp.netlify.app', '*'],
-  origin: 'http://localhost:3000',
+  origin: ['https://niteshgupta5-instaapp.netlify.app', '*'],
+  // origin: 'http://localhost:3000',
   credentials:true,            //access-control-allow-credentials:true
 }));
 app.use(cookieParser());
@@ -146,16 +146,16 @@ app.post('/api/verify/otpvalid',(req,res)=>{
   });
 });
 
-app.use(express.static(path.join(__dirname,"./client/build")));
+// app.use(express.static(path.join(__dirname,"./client/build")));
 
-app.get("*",function (_,res){
-    res.sendFile(
-      path.join(__dirname,"./client/build/index.html"),
-      function(err){
-        res.status(500).send(err);
-      }
-    );
-});
+// app.get("*",function (_,res){
+//     res.sendFile(
+//       path.join(__dirname,"./client/build/index.html"),
+//       function(err){
+//         res.status(500).send(err);
+//       }
+//     );
+// });
 
 app.listen(port,()=>{
     console.log(`Server is working at ${port}`);
