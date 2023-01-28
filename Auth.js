@@ -667,6 +667,46 @@ export const HandleFetchProfile = async (data,callback)=>{
   }
 }
 
+//-------------------------route (/fetch/followers/list)------------------//
+
+export const HandleFollowersList = async (data,callback)=>{
+  try {
+      let username = data;
+      let followerslist;
+      const exist = await UserSchemaModel.findOne({username : username});
+      if(exist){
+        
+        followerslist = exist.followerslist;
+        callback({data : followerslist});
+        return;
+      }
+      
+  } catch (err) {
+    callback({data : "failed"});
+    console.log(err);
+  }
+}
+
+//-------------------------route (/fetch/following/list)------------------//
+
+export const HandleFollowingList = async (data,callback)=>{
+  try {
+      let username = data;
+      let followinglist;
+      const exist = await UserSchemaModel.findOne({username : username});
+      if(exist){
+        
+        followinglist = exist.followinglist;
+        callback({data : followinglist});
+        return;
+      }
+      
+  } catch (err) {
+    callback({data : "failed"});
+    console.log(err);
+  }
+}
+
 //------------------------------upadate and delete functions--------------//
 
 //  const UpdateInDB = async ()=>{

@@ -5,7 +5,7 @@ import cookieParser from "cookie-parser";
 import HandleAuth from './Auth.js';
 import { HandleLogin, HandleProfile, HandleLatestPosts, HandleCreatePost, HandleSearchData, 
   HandleFollow, HandleUnFollow,HandlePostLike, HandleLikedPost, HandlePostUnLike, HandleDeletePost,
-   HandleChatlist, HandleComment, HandleEditProfile, HandleFetchProfile, HandleOtp, HandleVerifyOtp} from './Auth.js';
+   HandleChatlist, HandleComment, HandleEditProfile, HandleFetchProfile, HandleOtp, HandleVerifyOtp, HandleFollowersList, HandleFollowingList} from './Auth.js';
 import Authenticate from './Authenticate.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -134,6 +134,18 @@ app.post('/fetch/profile', Authenticate ,(req,res)=>{
   });
 });
 
+app.post('/fetch/followers/list', Authenticate,(req,res)=>{
+  HandleFollowersList(req.rootUsername, function(result){
+    res.send({msg: result.data});
+  });
+});
+
+app.post('/fetch/following/list', Authenticate,(req,res)=>{
+  HandleFollowingList(req.rootUsername, function(result){
+    res.send({msg: result.data});
+  });
+});
+
 app.post('/api/send/otp',(req,res)=>{
   HandleOtp(req.body, function(result){
     res.send({msg : result});
@@ -145,6 +157,7 @@ app.post('/api/verify/otpvalid',(req,res)=>{
     res.send({msg : result});
   });
 });
+
 
 const __filename = fileURLToPath(import.meta.url);
 

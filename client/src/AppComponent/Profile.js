@@ -13,6 +13,7 @@ function Profile() {
   const [profiledetail, setProfiledetail] = useState({});
   const [postdetail, setPostdetail] = useState([]);
 
+
     const fetchProfile = async () =>{
 
       try {
@@ -81,12 +82,16 @@ function Profile() {
                         <p class="small text-muted mb-0">Posts</p>
                       </div>
                       <div class="px-3">
+                      <Link to="/see/list/followers/UHSunkw7368sbnkBqoiKHdu823jkonxd4uhH" style={{color: "black"}}>
                         <p class="mb-1 h5">{profiledetail.totalfollowers}</p>
                         <p class="small text-muted mb-0">Followers</p>
+                      </Link>
                       </div>
                       <div>
+                      <Link to="/see/list/following/B6CXDFS388BJGsm0i2cn8hehlkaLIUdfe7fd" style={{color: "black"}}>
                         <p class="mb-1 h5">{profiledetail.totalfollowing}</p>
                         <p class="small text-muted mb-0">Following</p>
+                      </Link>
                       </div>
                     </div>
                   </div>

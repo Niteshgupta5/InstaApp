@@ -18,6 +18,8 @@ import ForgetPassword from './AppComponent/ForgetPassword.js';
 import ErrorPage from './AppComponent/ErrorPage.js';
 import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import FollowersList from './AppComponent/FollowersList.js';
+import FollowingList from './AppComponent/FollowingList.js';
 
 
 function App() {
@@ -41,6 +43,8 @@ function App() {
               <Route path='/api/Gsjku/profilr/7nbs892nxkwFISvywuh7289NKnixTVGbCRu9385' element={<Profile/>}></Route>
               <Route path='/search/user/cisdrUJnkcn355KHihdwp75oohYUiuxJoijwd76r46cdk' element={<FollowPage/>}></Route>
               <Route path='/edit/HGxdvh54/profile/cjnuw287dbhiTFrxdsnbhYgfnknGYG388' element={<EditComponent/>}></Route>
+              <Route path='/see/list/followers/UHSunkw7368sbnkBqoiKHdu823jkonxd4uhH' element={<FollowersList/>}></Route>
+              <Route path='/see/list/following/B6CXDFS388BJGsm0i2cn8hehlkaLIUdfe7fd' element={<FollowingList/>}></Route>
               <Route path='/logout' element={<Logout/>}></Route>
               <Route path='*' element={<ErrorPage/>}></Route>
               </Routes>
