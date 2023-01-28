@@ -48,7 +48,7 @@ function ChatMessage() {
 
   return (
     <>
-      <section className='gradient-custom' style={{height: "100%"}}>
+      <section className='gradient-custom' style={{height: "100%", overflowY: "scroll"}}>
        <div className="container py-2">
 
           <div className="row">

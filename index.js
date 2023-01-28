@@ -8,6 +8,7 @@ import { HandleLogin, HandleProfile, HandleLatestPosts, HandleCreatePost, Handle
    HandleChatlist, HandleComment, HandleEditProfile, HandleFetchProfile, HandleOtp, HandleVerifyOtp} from './Auth.js';
 import Authenticate from './Authenticate.js';
 import path from 'path';
+import { fileURLToPath } from 'url';
 
 dotenv.config({ path: './config.env' });
 const port = process.env.PORT || 3001;
@@ -144,6 +145,10 @@ app.post('/api/verify/otpvalid',(req,res)=>{
     res.send({msg : result});
   });
 });
+
+const __filename = fileURLToPath(import.meta.url);
+
+const __dirname = path.dirname(__filename);
 
 app.use(express.static(path.join(__dirname,"./client/build")));
 
