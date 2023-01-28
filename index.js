@@ -7,6 +7,7 @@ import { HandleLogin, HandleProfile, HandleLatestPosts, HandleCreatePost, Handle
   HandleFollow, HandleUnFollow,HandlePostLike, HandleLikedPost, HandlePostUnLike, HandleDeletePost,
    HandleChatlist, HandleComment, HandleEditProfile, HandleFetchProfile, HandleOtp, HandleVerifyOtp} from './Auth.js';
 import Authenticate from './Authenticate.js';
+import path from 'path';
 
 dotenv.config({ path: './config.env' });
 const port = process.env.PORT || 3001;
