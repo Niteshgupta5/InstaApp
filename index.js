@@ -22,9 +22,6 @@ app.use(cors({
 }));
 app.use(cookieParser());
 
-app.get('/',(req,res)=>{
-    res.send("<h1>Server is working</h1>");
-  });
 
 app.post('/signup',(req,res)=>{
     HandleAuth(req.body, function(result){
@@ -150,7 +147,7 @@ app.post('/api/verify/otpvalid',(req,res)=>{
 
 app.use(express.static(path.join(__dirname,"./client/build")));
 
-app.get("*",function (_,res){
+app.get("*",(req,res)=>{
     res.sendFile(
       path.join(__dirname,"./client/build/index.html"),
       function(err){
