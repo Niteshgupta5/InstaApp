@@ -16,7 +16,8 @@ app.use(express.json());
 app.use(cors({
 //   origin: ['https://niteshgupta5-instaapp.netlify.app', '*'],
 //  origin: 'http://localhost:3000',
-//   credentials:true,            //access-control-allow-credentials:true
+  origin: 'https://erin-wandering-drill.cyclic.app',
+  credentials:true,            //access-control-allow-credentials:true
 }));
 app.use(cookieParser());
 
