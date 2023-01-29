@@ -11,6 +11,14 @@ function ChatMessage() {
   const logstate = useDispatch();
   const navigate = useNavigate();
   const [chatlist, setChatlist] = useState([]);
+  let usr = "";
+
+  const openChat = async (e) =>{
+      e.preventDefault();
+      usr = await e.target.value;
+      console.log(usr);
+      console.log("openchat execute");
+  }
 
     const fetchChat = async () =>{
 
@@ -75,8 +83,8 @@ function ChatMessage() {
                           {
                             chatlist.length>0 ? (<>
                               {
-                                chatlist.map((ele)=>{
-                                 return (<li style={{padding: "5px 5px 0px 5px", borderBottom: "1px solid rgb(255 255 255 / 25%)"}}>
+                                chatlist.map((ele,index)=>{
+                                 return (<li type="button" role="button" key={index} value={ele.username} onClick={openChat} style={{padding: "5px 5px 0px 5px", borderBottom: "1px solid rgb(255 255 255 / 25%)", cursor: "pointer"}}>
                                     <div className="d-flex justify-content-between">
                                       <div className="d-flex flex-row">
                                         <div>
@@ -109,9 +117,11 @@ function ChatMessage() {
                     </div>
                   
                     {chatlist.length>0 ?
-                    (<div className="col-md-6 col-lg-7 col-xl-8">
-
-                      <div className="pt-3 pe-3" data-mdb-perfect-scrollbar="true"
+                    (<>
+                    { 
+                      usr.length>0 ? (<>
+                        <div className="col-md-6 col-lg-7 col-xl-8">
+                        <div className="pt-3 pe-3" data-mdb-perfect-scrollbar="true"
                         style={{position: "relative", height: "400px", overflowY : "scroll"}}>
                       {/* left chat */}
                         <div className="d-flex flex-row justify-content-start">
@@ -154,8 +164,10 @@ function ChatMessage() {
                         <a className="ms-3" href="#!"><i className="fas fa-paperclip" style={{color: "#fff"}}></i></a>
                         <a className="ms-3" href="#!"><i className="fas fa-smile" style={{color: "#fff"}}></i></a>
                       </div>
-                     
-                    </div>) : (<><div className="col-md-6 col-lg-7 col-xl-8" style={{textAlign: "center",margin: "auto"}}><p style={{fontSize: "24px"}}>Click<Link to="/search/user/cisdrUJnkcn355KHihdwp75oohYUiuxJoijwd76r46cdk" style={{color:"blue"}}> here </Link>to start a chat</p></div></>)
+                      </div>
+                      </>) : (<><div className='col-md-6 col-lg-7 col-xl-8' style={{textAlign: "center",margin: "auto"}}><p style={{fontSize: "24px"}}>Select a conversation to start a chat</p></div></>)    
+                    }
+                    </>) : (<><div className="col-md-6 col-lg-7 col-xl-8" style={{textAlign: "center",margin: "auto"}}><p style={{fontSize: "24px"}}>Click<Link to="/search/user/cisdrUJnkcn355KHihdwp75oohYUiuxJoijwd76r46cdk" style={{color:"blue"}}> here </Link>to start a chat</p></div></>)
                   }
                   </div>
 

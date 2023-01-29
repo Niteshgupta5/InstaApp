@@ -16,8 +16,6 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors({
-//   origin: ['https://niteshgupta5-instaapp.netlify.app', '*'],
-//  origin: 'http://localhost:3000',
   origin: 'https://erin-wandering-drill.cyclic.app',
   credentials:true,            //access-control-allow-credentials:true
 }));
@@ -48,6 +46,7 @@ app.post('/login',(req,res)=>{
 app.post('/logout',(req,res)=>{
     res.clearCookie('instaapp',{path:"/", httpOnly : true,secure: true,sameSite : "none",});
     res.send({logout: "success"});
+    res.end();
 });
 
 app.post('/profile', Authenticate ,(req,res)=>{

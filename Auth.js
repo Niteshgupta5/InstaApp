@@ -707,21 +707,5 @@ export const HandleFollowingList = async (data,callback)=>{
   }
 }
 
-//------------------------------upadate and delete functions--------------//
-
-//  const UpdateInDB = async ()=>{
-//   let data = await RegisterSchemaModel.updateOne(
-//     {name : "pooja"},
-//     {
-//       $set: {message : "hey,pooja is here..."}
-//     }
-//   )
-//   console.log(data);
-//  }
-
-// const DeleteInDB = async ()=>{
-//   let data = await RegisterSchemaModel.deleteOne({name : "pooja"})
-//   console.log(data);
-//  }
 
 export default HandleAuth;
