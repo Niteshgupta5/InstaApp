@@ -5,7 +5,8 @@ import cookieParser from "cookie-parser";
 import HandleAuth from './Auth.js';
 import { HandleLogin, HandleProfile, HandleLatestPosts, HandleCreatePost, HandleSearchData, 
   HandleFollow, HandleUnFollow,HandlePostLike, HandleLikedPost, HandlePostUnLike, HandleDeletePost,
-   HandleChatlist, HandleComment, HandleEditProfile, HandleFetchProfile, HandleOtp, HandleVerifyOtp, HandleFollowersList, HandleFollowingList} from './Auth.js';
+   HandleChatlist, HandleComment, HandleEditProfile, HandleFetchProfile, HandleOtp, HandleVerifyOtp, 
+   HandleFollowersList, HandleFollowingList, HandleConversationList, HandleSendMessage} from './Auth.js';
 import Authenticate from './Authenticate.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -141,6 +142,18 @@ app.post('/fetch/followers/list', Authenticate,(req,res)=>{
 
 app.post('/fetch/following/list', Authenticate,(req,res)=>{
   HandleFollowingList(req.rootUsername, function(result){
+    res.send({msg: result.data});
+  });
+});
+
+app.post('/user/conversation/list', Authenticate,(req,res)=>{
+  HandleConversationList(req.rootUsername, req.body, function(result){
+    res.send({msg: result.data});
+  });
+});
+
+app.post('/send/chat/message', Authenticate,(req,res)=>{
+  HandleSendMessage(req.rootUsername, req.body, function(result){
     res.send({msg: result.data});
   });
 });

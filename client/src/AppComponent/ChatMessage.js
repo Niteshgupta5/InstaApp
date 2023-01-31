@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './ChatMessage.css';
-import { useDispatch } from 'react-redux';
+import CurrUserStatus from '../reducer/CheckUserStatus.js';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { notloged } from './actions/Action.js';
 import { toast } from 'react-toastify';
@@ -8,16 +9,76 @@ import { toast } from 'react-toastify';
 //https://mernappbackend-lduv.onrender.com
 
 function ChatMessage() {
+  const curruser = useSelector((state)=> state.CurrUserStatus);
   const logstate = useDispatch();
   const navigate = useNavigate();
   const [chatlist, setChatlist] = useState([]);
-  let usr = "";
+  const [conversationlist, setConversationlist] = useState([]);
+  const [chatuser, setChatuser] = useState("");
+  const [message, setMessage] = useState("");
 
-  const openChat = async (e) =>{
+
+  const SendMessage = async (e) =>{
+    try {
       e.preventDefault();
-      usr = await e.target.value;
-      console.log(usr);
-      console.log("openchat execute");
+      const apiurl = "/send/chat/message";
+      const res = await fetch(apiurl,{method: 'POST',
+      headers: { 
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      credentials: "include",
+      body: JSON.stringify({receiver: chatuser, message : message})
+    })
+  
+    const data = await res.json();
+    if(data){
+    if(data.msg === "Unauthorized: No token provided"){
+      toast.error(data.msg);
+      logstate(notloged(false));
+      navigate('/');
+    }else{
+       setMessage("");
+       if(data.msg === "success"){
+          openChat(chatuser);
+       }
+    }
+   }
+ } catch (err) {
+   console.log(err);
+   logstate(notloged(false));
+   navigate('/');
+ }
+  }
+
+  const openChat = async (val) =>{
+    try {
+      setChatuser(val);
+      const apiurl = "/user/conversation/list";
+      const res = await fetch(apiurl,{method: 'POST',
+      headers: { 
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      credentials: "include",
+      body: JSON.stringify({receiver: val})
+    })
+  
+    const data = await res.json();
+    if(data){
+    if(data.msg === "Unauthorized: No token provided"){
+      toast.error(data.msg);
+      logstate(notloged(false));
+      navigate('/');
+    }else{
+       setConversationlist(data.msg); 
+    }
+   }else{setConversationlist([])}
+ } catch (err) {
+   console.log(err);
+   logstate(notloged(false));
+   navigate('/');
+ }
   }
 
     const fetchChat = async () =>{
@@ -83,9 +144,9 @@ function ChatMessage() {
                           {
                             chatlist.length>0 ? (<>
                               {
-                                chatlist.map((ele,index)=>{
-                                 return (<li type="button" role="button" key={index} value={ele.username} onClick={openChat} style={{padding: "5px 5px 0px 5px", borderBottom: "1px solid rgb(255 255 255 / 25%)", cursor: "pointer"}}>
-                                    <div className="d-flex justify-content-between">
+                                chatlist.map((ele)=>{
+                                 return (<li type="button" role="button" value={ele.username} onClick={(e)=>{e.preventDefault(); openChat(ele.username)}} style={{padding: "5px 5px 0px 5px", borderBottom: "1px solid rgb(255 255 255 / 25%)", cursor: "pointer"}}>
+                                    <div className="d-flex justify-content-between" style={{position: "relative",zIndex: "-1"}}>
                                       <div className="d-flex flex-row">
                                         <div>
                                           <img
@@ -93,7 +154,7 @@ function ChatMessage() {
                                             alt="avatar" className="d-flex align-self-center border rounded-circle me-3" width="50"/>
                                           {/* <span className="badge bg-success badge-dot"></span> */}
                                         </div>
-                                        <div className="pt-1">
+                                        <div className="pt-1" style={{textAlign: "left"}}>
                                           <p className="fw-bold mb-0 chat-side-text" style={{textDecoration: "none !important"}}>{ele.username}</p>
                                           <p className="small chat-side-text mt-2" style={{textDecoration: "none !important" , fontSize: "12px"}}>lorem ipsum</p>
                                         </div>
@@ -119,44 +180,51 @@ function ChatMessage() {
                     {chatlist.length>0 ?
                     (<>
                     { 
-                      usr.length>0 ? (<>
+                      chatuser.length>0 ? (<>
                         <div className="col-md-6 col-lg-7 col-xl-8">
-                        <div className="pt-3 pe-3" data-mdb-perfect-scrollbar="true"
-                        style={{position: "relative", height: "400px", overflowY : "scroll"}}>
-                      {/* left chat */}
-                        <div className="d-flex flex-row justify-content-start">
-                          <img src="https://mdbootstrap.com/img/Photos/Avatars/img (31).jpg"
-                            alt="avatar 1" className='border rounded-circle me-3' style={{width: "45px", height: "100%"}}/>
-                          <div>
-                            <p className="small p-2 ms-3 mb-1 rounded-3 mask-custom" style={{ width: "85%",color: "#fff"}}>Lorem ipsum
-                              dolor
-                              sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                              dolore
-                              magna aliqua.</p>
-                            <p className="small ms-3 mb-3 rounded-3 float-end" style={{color: "black"}}>12:00 PM | Aug 13</p>
+                        <div className="pt-3 pe-3" data-mdb-perfect-scrollbar="true" style={{position: "relative", height: "400px", overflowY : "scroll"}}>
+                        {
+                          conversationlist.length>0 ? (<>
+                                {
+                                  conversationlist.map((ele,index)=>{ 
+                                      if(ele.sender === curruser){
+                                          return(<>{/* right chat */}
+                                           <div className="d-flex flex-row justify-content-end">
+                                             <div>
+                                               <p className="small p-2 me-3 mb-1 text-white rounded-3 mask-custom" style={{width: "85%"}}>{ele.message}</p>
+                                               <p className="small me-3 mb-3 rounded-3 " style={{color: "black"}}>12:00 PM | Aug 13</p>
+                                             </div>
+                                             <img src={ele.senderprofile}
+                                               alt="avatar 1" className='border rounded-circle me-3' style={{width: "45px", height: "100%"}}/>
+                                           </div></>)
+                                      }else{
+                                          return(<>{/* left chat */}
+                                          <div className="d-flex flex-row justify-content-start">
+                                            <img src={ele.senderprofile}
+                                              alt="avatar 1" className='border rounded-circle me-3' style={{width: "45px", height: "100%"}}/>
+                                            <div>
+                                              <p className="small p-2 ms-3 mb-1 rounded-3 mask-custom" style={{ width: "85%",color: "#fff"}}>{ele.message}</p>
+                                              <p className="small ms-3 mb-3 rounded-3 float-end" style={{color: "black"}}>12:00 PM | Aug 13</p>
+                                            </div>
+                                          </div></>)
+                                      }
+                                  })
+                                }
+                          </>) : (<>
+                          <div className='d-flex justify-content-center'>
+                              <p>No Messages here yet..</p><br/>
+                              <p>Start a chat now</p>
                           </div>
-                        </div>
-                      {/* right chat */}
-                        <div className="d-flex flex-row justify-content-end">
-                          <div>
-                            <p className="small p-2 me-3 mb-1 text-white rounded-3 mask-custom" style={{width: "85%"}}>Nemo enim ipsam
-                              voluptatem quia
-                              voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos
-                              qui
-                              ratione voluptatem sequi nesciunt.</p>
-                            <p className="small me-3 mb-3 rounded-3 " style={{color: "black"}}>12:00 PM | Aug 13</p>
-                          </div>
-                          <img src="https://mdbootstrap.com/img/Photos/Avatars/img (31).jpg"
-                            alt="avatar 1" className='border rounded-circle me-3' style={{width: "45px", height: "100%"}}/>
-                        </div>
-
+                          </>)
+                        }
+                      
                       </div>
                       
                       <div className="text-muted d-flex justify-content-start align-items-center pe-3 pt-3 mt-2">
                       
                       <div class="form-outline form-white">
-                      <form className='d-flex flex-row justify-content-end'>
-                       <textarea class="form-control chat-message-box" id="textAreaExample3" rows="4" style={{backgroundColor: "transparent", resize: "none"}} required></textarea>
+                      <form className='d-flex flex-row justify-content-end' onSubmit={SendMessage}>
+                       <textarea class="form-control chat-message-box" id="textAreaExample3" rows="4" value={message} onChange={(e)=> setMessage(e.target.value)} style={{backgroundColor: "transparent", resize: "none"}} required></textarea>
                        <label class="form-label chat-message-label" htmlFor="textAreaExample3">Message</label>
                        <button type='submit' value="submit" className="ms-1" style={{backgroundColor: "transparent", border: "none"}}><i className="fas fa-paper-plane" style={{color: "#fff"}}></i></button>
                        </form>

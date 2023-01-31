@@ -73,6 +73,27 @@ const UserSchema = new Schema({
           required: true,
         }
       }
+     ],
+     chatlist:[
+      {
+        sender:{
+          type: String,
+          required: true,
+        },
+        senderprofile:{
+          type: String,
+          required: true,
+        },
+        receiver:{
+          type: String,
+          required: true,
+        },
+        message:{
+          type: String,
+          required: true,
+        },
+        time: String
+      }
      ]
 });
 

@@ -708,4 +708,61 @@ export const HandleFollowingList = async (data,callback)=>{
 }
 
 
+//-------------------------route (/user/conversation/list)------------------//
+
+export const HandleConversationList = async (data, body, callback)=>{
+  try {
+      let username = data;
+      let receiver = body.receiver;
+      var chatlist = new Array();
+      const exist = await UserSchemaModel.findOne({username : username});
+       if(exist && exist.chatlist){
+          for(let x of exist.chatlist){
+            if(x.sender === receiver || x.receiver === receiver){
+              chatlist.push(x);
+            }
+          }
+          chatlist.sort((e1,e2)=>{
+            return e1.time - e2.time
+          });
+          callback({data : chatlist});
+          return;
+        }
+        callback({data : chatlist});
+        return;
+      
+  } catch (err) {
+    callback({data : "failed"});
+    console.log(err);
+  }
+}
+
+//-------------------------route (/send/chat/message)------------------//
+
+export const HandleSendMessage = async (data, body, callback)=>{
+  try {
+      let username = data;
+      let receiver = body.receiver;
+      let message = body.message;
+      const exist = await UserSchemaModel.findOne({username : username});
+      const existone = await UserSchemaModel.findOne({username : receiver});
+      if(exist && existone){
+        
+        exist.chatlist = exist.chatlist.concat({sender: username, senderprofile: exist.profile, receiver: receiver, message: message, time: Date()});
+        existone.chatlist = existone.chatlist.concat({sender: username, senderprofile: exist.profile, receiver: receiver, message: message, time: Date()});
+        const resone = await exist.save();
+        const restwo = await existone.save();
+        if(resone && restwo){
+          callback({data : "success"});
+          return;
+        }
+      }
+      
+  } catch (err) {
+    callback({data : "failed"});
+    console.log(err);
+  }
+}
+
+
 export default HandleAuth;
