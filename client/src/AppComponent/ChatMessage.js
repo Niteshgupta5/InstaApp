@@ -16,6 +16,7 @@ function ChatMessage() {
   const [conversationlist, setConversationlist] = useState([]);
   const [chatuser, setChatuser] = useState("");
   const [message, setMessage] = useState("");
+  const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
 
   const SendMessage = async (e) =>{
@@ -187,12 +188,19 @@ function ChatMessage() {
                           conversationlist.length>0 ? (<>
                                 {
                                   conversationlist.map((ele,index)=>{ 
+                                    let date = new Date(ele.time);
+                                    let hour = date.getHours();
+                                    let ampm = hour>12 ? "PM" : "AM";
+                                    let min = date.getMinutes();
+                                    let month = months[date.getMonth()];
+                                    let day = date.getDate();
+                                    let fulltime = hour + ":" + min+ " ampm" + " | " + month +" "+day;
                                       if(ele.sender === curruser){
                                           return(<>{/* right chat */}
                                            <div className="d-flex flex-row justify-content-end">
                                              <div>
                                                <p className="small p-2 me-3 mb-1 text-white rounded-3 mask-custom" style={{width: "85%"}}>{ele.message}</p>
-                                               <p className="small me-3 mb-3 rounded-3 " style={{color: "black"}}>12:00 PM | Aug 13</p>
+                                               <p className="small me-3 mb-3 rounded-3 " style={{color: "black"}}>{fulltime}</p>
                                              </div>
                                              <img src={ele.senderprofile}
                                                alt="avatar 1" className='border rounded-circle me-3' style={{width: "45px", height: "100%"}}/>
@@ -204,16 +212,16 @@ function ChatMessage() {
                                               alt="avatar 1" className='border rounded-circle me-3' style={{width: "45px", height: "100%"}}/>
                                             <div>
                                               <p className="small p-2 ms-3 mb-1 rounded-3 mask-custom" style={{ width: "85%",color: "#fff"}}>{ele.message}</p>
-                                              <p className="small ms-3 mb-3 rounded-3 float-end" style={{color: "black"}}>12:00 PM | Aug 13</p>
+                                              <p className="small ms-3 mb-3 rounded-3 float-end" style={{color: "black"}}>{fulltime}</p>
                                             </div>
                                           </div></>)
                                       }
                                   })
                                 }
                           </>) : (<>
-                          <div className='d-flex justify-content-center' style={{flexDirection: "column"}}>
-                              <p>No Messages here yet..</p><br/>
-                              <p>Start a chat now</p>
+                          <div className='d-flex justify-content-center text-center' style={{flexDirection: "column"}}>
+                              <p style={{marginBottom: "10px"}}>No Messages here yet..</p>
+                              <p style={{marginBottom: "none"}}>Start a chat now</p>
                           </div>
                           </>)
                         }
