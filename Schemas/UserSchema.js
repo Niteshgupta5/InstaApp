@@ -80,10 +80,6 @@ const UserSchema = new Schema({
           type: String,
           required: true,
         },
-        senderprofile:{
-          type: String,
-          required: true,
-        },
         receiver:{
           type: String,
           required: true,

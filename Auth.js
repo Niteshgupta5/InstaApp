@@ -748,8 +748,8 @@ export const HandleSendMessage = async (data, body, callback)=>{
       const existone = await UserSchemaModel.findOne({username : receiver});
       if(exist && existone){
         
-        exist.chatlist = exist.chatlist.concat({sender: username, senderprofile: exist.profile, receiver: receiver, message: message, time: Date()});
-        existone.chatlist = existone.chatlist.concat({sender: username, senderprofile: exist.profile, receiver: receiver, message: message, time: Date()});
+        exist.chatlist = exist.chatlist.concat({sender: username, receiver: receiver, message: message, time: Date()});
+        existone.chatlist = existone.chatlist.concat({sender: username, receiver: receiver, message: message, time: Date()});
         const resone = await exist.save();
         const restwo = await existone.save();
         if(resone && restwo){

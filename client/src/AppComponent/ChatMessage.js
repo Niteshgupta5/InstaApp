@@ -147,7 +147,7 @@ function ChatMessage() {
                               {
                                 chatlist.map((ele)=>{
                                  return (<li type="button" role="button" value={ele.username} onClick={(e)=>{e.preventDefault(); openChat(ele.username)}} style={{padding: "5px 5px 0px 5px", borderBottom: "1px solid rgb(255 255 255 / 25%)", cursor: "pointer"}}>
-                                    <div className="d-flex justify-content-between" style={{position: "relative",zIndex: "-1"}}>
+                                    <div className="d-flex justify-content-between" style={{position: "relative",zIndex: "-1", marginBottom: "10px"}}>
                                       <div className="d-flex flex-row">
                                         <div>
                                           <img
@@ -157,12 +157,12 @@ function ChatMessage() {
                                         </div>
                                         <div className="pt-1" style={{textAlign: "left"}}>
                                           <p className="fw-bold mb-0 chat-side-text" style={{textDecoration: "none !important"}}>{ele.username}</p>
-                                          <p className="small chat-side-text mt-2" style={{textDecoration: "none !important" , fontSize: "12px"}}>lorem ipsum</p>
+                                          {/* <p className="small chat-side-text mt-2" style={{textDecoration: "none !important" , fontSize: "12px"}}>lorem ipsum</p> */}
                                         </div>
                                       </div>
                                       <div className="pt-1">
                                         <p className="small mb-1 chat-side-text" style={{textDecoration: "none !important"}}>2:30pm</p>
-                                        <span className="badge bg-danger rounded-pill text-center float-end" style={{padding: "4px 6px"}}>3</span>
+                                        {/* <span className="badge bg-danger rounded-pill text-center float-end" style={{padding: "4px 6px"}}>3</span> */}
                                       </div>
                                     </div>
                                   </li>)
@@ -183,15 +183,17 @@ function ChatMessage() {
                     { 
                       chatuser.length>0 ? (<>
                         <div className="col-md-6 col-lg-7 col-xl-8">
-                        <div className="pt-3 pe-3" data-mdb-perfect-scrollbar="true" style={{position: "relative", height: "400px", overflowY : "scroll"}}>
+                        <div className="pt-3 pe-3" id="scrollbardiv" data-mdb-perfect-scrollbar="true" style={{position: "relative", height: "400px", overflowY : "scroll"}}>
                         {
                           conversationlist.length>0 ? (<>
                                 {
                                   conversationlist.map((ele,index)=>{ 
                                     let date = new Date(ele.time);
                                     let hour = date.getHours();
-                                    let ampm = hour>12 ? "PM" : "AM";
+                                    let ampm = hour>=12 ? "PM" : "AM";
+                                    hour = hour>12 ? hour-12 : hour;
                                     let min = date.getMinutes();
+                                    min = min < 10 ? "0"+min : min;
                                     let month = months[date.getMonth()];
                                     let day = date.getDate();
                                     let fulltime = hour + ":" + min+ " " +ampm + " | " + month +" "+day;
@@ -199,20 +201,20 @@ function ChatMessage() {
                                           return(<>{/* right chat */}
                                            <div className="d-flex flex-row justify-content-end">
                                              <div>
-                                               <p className="small p-2 me-3 mb-1 text-white rounded-3 mask-custom" style={{width: "85%"}}>{ele.message}</p>
-                                               <p className="small me-3 mb-3 rounded-3 " style={{color: "black"}}>{fulltime}</p>
+                                               <p className="small p-2 me-3 mb-1 text-white mask-custom side-arrow-div-right" style={{width: "85%",margin:"0px !important", float: "right"}}>{ele.message}</p>
+                                               <p className="small me-3 mb-3 rounded-3 " style={{color: "black",float:"right"}}>{fulltime}</p>
                                              </div>
-                                             <img src={ele.senderprofile}
-                                               alt="avatar 1" className='border rounded-circle me-3' style={{width: "45px", height: "100%"}}/>
+                                             {/* <img src={ele.senderprofile}
+                                               alt="avatar 1" className='border rounded-circle me-3' style={{width: "45px", height: "100%"}}/> */}
                                            </div></>)
                                       }else{
                                           return(<>{/* left chat */}
                                           <div className="d-flex flex-row justify-content-start">
-                                            <img src={ele.senderprofile}
-                                              alt="avatar 1" className='border rounded-circle me-3' style={{width: "45px", height: "100%"}}/>
+                                            {/* <img src={ele.senderprofile}
+                                              alt="avatar 1" className='border rounded-circle me-3' style={{width: "45px", height: "100%"}}/> */}
                                             <div>
-                                              <p className="small p-2 ms-3 mb-1 rounded-3 mask-custom" style={{ width: "85%",color: "#fff"}}>{ele.message}</p>
-                                              <p className="small ms-3 mb-3 rounded-3 float-end" style={{color: "black"}}>{fulltime}</p>
+                                              <p className="small p-2 ms-3 mb-1 mask-custom side-arrow-div-left" style={{ width: "85%",color: "#fff",margin:"0px !important", float: "left"}}>{ele.message}</p>
+                                              <p className="small ms-3 mb-3 rounded-3" style={{color: "black", float: "left"}}>{fulltime}</p>
                                             </div>
                                           </div></>)
                                       }
