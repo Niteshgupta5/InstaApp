@@ -194,7 +194,7 @@ function ChatMessage() {
                                     let min = date.getMinutes();
                                     let month = months[date.getMonth()];
                                     let day = date.getDate();
-                                    let fulltime = hour + ":" + min+ " ampm" + " | " + month +" "+day;
+                                    let fulltime = hour + ":" + min+ " " +ampm + " | " + month +" "+day;
                                       if(ele.sender === curruser){
                                           return(<>{/* right chat */}
                                            <div className="d-flex flex-row justify-content-end">
