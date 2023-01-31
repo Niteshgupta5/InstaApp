@@ -211,7 +211,7 @@ function ChatMessage() {
                                   })
                                 }
                           </>) : (<>
-                          <div className='d-flex justify-content-center'>
+                          <div className='d-flex justify-content-center' style={{flexDirection: "column"}}>
                               <p>No Messages here yet..</p><br/>
                               <p>Start a chat now</p>
                           </div>
