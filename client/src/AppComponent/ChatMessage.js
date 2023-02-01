@@ -18,6 +18,31 @@ function ChatMessage() {
   const [message, setMessage] = useState("");
   const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
+  const getnewTime = (date)=>{
+    let hour = date.getHours();
+    let ampm = hour>=12 ? "PM" : "AM";
+    hour = hour>12 ? hour-12 : hour;
+    let min = date.getMinutes();
+    min = min < 10 ? "0"+min : min;
+    let fulltime = (hour + ":" + min+ " " +ampm).toString();
+    return fulltime;
+  }
+  const checknewTime = (date)=>{
+    const newdate = new Date(date);
+    const currdate = new Date();
+    let x = newdate.toJSON().slice(0,10);
+    let y = currdate.toJSON().slice(0,10);
+    
+    if(x === y){
+      return getnewTime(newdate);
+    }else{
+      let d = newdate.getDate();
+      let m = newdate.getMonth() +1;
+      let ye = newdate.getFullYear().toString().slice(2);
+      let z = d+"/"+m+"/"+ye;
+      return z;
+    }
+  }
 
   const SendMessage = async (e) =>{
     try {
@@ -146,8 +171,9 @@ function ChatMessage() {
                             chatlist.length>0 ? (<>
                               {
                                 chatlist.map((ele)=>{
+                                  let t = checknewTime(ele.time);
                                  return (<li type="button" role="button" value={ele.username} onClick={(e)=>{e.preventDefault(); openChat(ele.username)}} style={{padding: "5px 5px 0px 5px", borderBottom: "1px solid rgb(255 255 255 / 25%)", cursor: "pointer"}}>
-                                    <div className="d-flex justify-content-between" style={{position: "relative",zIndex: "-1", marginBottom: "10px"}}>
+                                    <div className="d-flex justify-content-between" style={{position: "relative",zIndex: "-1"}}>
                                       <div className="d-flex flex-row">
                                         <div>
                                           <img
@@ -157,11 +183,11 @@ function ChatMessage() {
                                         </div>
                                         <div className="pt-1" style={{textAlign: "left"}}>
                                           <p className="fw-bold mb-0 chat-side-text" style={{textDecoration: "none !important"}}>{ele.username}</p>
-                                          {/* <p className="small chat-side-text mt-2" style={{textDecoration: "none !important" , fontSize: "12px"}}>lorem ipsum</p> */}
+                                          <p className="small chat-side-text mt-2" style={{textDecoration: "none !important" , fontSize: "12px"}}>{ele.message}</p>
                                         </div>
                                       </div>
                                       <div className="pt-1">
-                                        <p className="small mb-1 chat-side-text" style={{textDecoration: "none !important"}}>2:30pm</p>
+                                        <p className="small mb-1 chat-side-text" style={{textDecoration: "none !important",fontFamily: "initial"}}>{t}</p>
                                         {/* <span className="badge bg-danger rounded-pill text-center float-end" style={{padding: "4px 6px"}}>3</span> */}
                                       </div>
                                     </div>
@@ -189,14 +215,10 @@ function ChatMessage() {
                                 {
                                   conversationlist.map((ele,index)=>{ 
                                     let date = new Date(ele.time);
-                                    let hour = date.getHours();
-                                    let ampm = hour>=12 ? "PM" : "AM";
-                                    hour = hour>12 ? hour-12 : hour;
-                                    let min = date.getMinutes();
-                                    min = min < 10 ? "0"+min : min;
+                                    let t = getnewTime(date);
                                     let month = months[date.getMonth()];
                                     let day = date.getDate();
-                                    let fulltime = hour + ":" + min+ " " +ampm + " | " + month +" "+day;
+                                    let fulltime = t + " | " + month +" "+day;
                                       if(ele.sender === curruser){
                                           return(<>{/* right chat */}
                                            <div className="d-flex flex-row justify-content-end">

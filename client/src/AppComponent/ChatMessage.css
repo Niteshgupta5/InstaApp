@@ -101,3 +101,16 @@ margin-top: -.75rem;
 .side-arrow-div-left{
   border-radius: 0rem 0rem 0.3rem 0.3rem;
 }
+
+div#scrollbardiv::-webkit-scrollbar {
+  width: 5px;
+}
+div#scrollbardiv::-webkit-scrollbar-track {
+  background: #221d1d42;
+}
+div#scrollbardiv::-webkit-scrollbar-thumb {
+  background: #00000061;
+}
+div#scrollbardiv::-webkit-scrollbar-thumb:hover {
+  background: #0000009e;
+}
