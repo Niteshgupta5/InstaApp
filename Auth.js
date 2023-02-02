@@ -524,9 +524,12 @@ export const HandleLikedPost = async (data, callback) =>{
         }
       callback({data : newlist});
       return;
+      }else{
+        callback({data : "No Post to display"});
+        return;
       }
 
-  } catch (err) {
+  }catch (err) {
     callback({data : "Conection failed"});
     console.log(err);
   }

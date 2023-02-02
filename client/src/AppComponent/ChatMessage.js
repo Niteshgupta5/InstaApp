@@ -256,7 +256,7 @@ function ChatMessage() {
                       
                       <div class="form-outline form-white">
                       <form className='d-flex flex-row justify-content-end' onSubmit={SendMessage}>
-                       <textarea class="form-control chat-message-box" id="textAreaExample3" rows="4" value={message} onChange={(e)=> setMessage(e.target.value)} style={{backgroundColor: "transparent", resize: "none"}} required></textarea>
+                       <textarea class="form-control chat-message-box" id="textAreaExample3" rows="4" value={message} onChange={(e)=> setMessage(e.target.value)} style={{backgroundColor: "transparent", resize: "none", paddingTop:"12px"}} required></textarea>
                        <label class="form-label chat-message-label" htmlFor="textAreaExample3">Message</label>
                        <button type='submit' value="submit" className="ms-1" style={{backgroundColor: "transparent", border: "none"}}><i className="fas fa-paper-plane" style={{color: "#fff"}}></i></button>
                        </form>
