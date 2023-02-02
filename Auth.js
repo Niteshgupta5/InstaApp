@@ -576,13 +576,21 @@ export const HandleChatlist = async (data,callback)=>{
             return user.sender === x.followingto || user.receiver === x.followingto;
           });
           newlist = newlist[newlist.length - 1];
+          const res = await RegisterSchemaModel.find({username : x.followingto});
           const detail = {username: "" , profile: "", message: "", time: ""};
           if(newlist){
             detail.message = newlist.message.length > 18 ? newlist.message.slice(0,15) + "..." : newlist.message;
-            detail.time = newlist.time;
+            if (newlist.sender === x.followingto) {
+              detail.time = newlist.time;
+            } else {
+              if(res){
+                let obj = res[0].tokens;
+                obj = obj[obj.length - 1];
+                detail.time = obj.time;
+              } 
+            }    
           }else{
             detail.message = "No message here yet..";
-            const res = await RegisterSchemaModel.find({username : x.followingto});
             if(res){
               let obj = res[0].tokens;
               obj = obj[obj.length - 1];
