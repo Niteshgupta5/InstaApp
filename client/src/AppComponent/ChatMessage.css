@@ -114,3 +114,39 @@ div#scrollbardiv::-webkit-scrollbar-thumb {
 div#scrollbardiv::-webkit-scrollbar-thumb:hover {
   background: #0000009e;
 }
+
+.chat-floating-container {
+  position: fixed;
+  width: 50px;
+  height: 50px;
+  bottom: 0;
+  right: 0;
+  margin: 10px 10px;
+}
+.chat-floating-container:hover .chat-floating-button {
+  box-shadow: 0 10px 25px rgba(80, 80, 75, 0.2);
+  -webkit-transform: translatey(5px);
+          transform: translatey(5px);
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+}
+.chat-floating-container .chat-floating-button {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  background: rgb(24 24 16 / 34%);
+  bottom: 0;
+  border-radius: 50%;
+  left: 0;
+  right: 0;
+  margin: auto;
+  color: white;
+  line-height: 47px;
+  text-align: center;
+  font-size: 23px;
+  z-index: 100;
+  box-shadow: 0 10px 25px -5px rgb(23 23 22 / 52%);
+  cursor: pointer;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+}

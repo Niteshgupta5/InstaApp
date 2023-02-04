@@ -570,17 +570,17 @@ export const HandleChatlist = async (data,callback)=>{
       let username = data;
       var list = new Array();
       const exist = await UserSchemaModel.findOne({username : username});
-      if(exist && exist.followinglist){
-        for(let x of exist.followinglist){
+      if(exist && exist.chatusers){
+        for(let x of exist.chatusers){
           var newlist = exist.chatlist.filter((user)=>{
-            return user.sender === x.followingto || user.receiver === x.followingto;
+            return user.sender === x.user || user.receiver === x.user;
           });
           newlist = newlist[newlist.length - 1];
-          const res = await RegisterSchemaModel.find({username : x.followingto});
+          const res = await RegisterSchemaModel.find({username : x.user});
           const detail = {username: "" , profile: "", message: "", time: ""};
           if(newlist){
             detail.message = newlist.message.length > 18 ? newlist.message.slice(0,15) + "..." : newlist.message;
-            if (newlist.sender === x.followingto) {
+            if (newlist.sender === x.user) {
               detail.time = newlist.time;
             } else {
               if(res){
@@ -597,14 +597,17 @@ export const HandleChatlist = async (data,callback)=>{
               detail.time = obj.time;
             }
           }
-          detail.username = x.followingto;
-          detail.profile = x.followingprofile;
+          detail.username = x.user;
+          detail.profile = x.userprofile;
           list.push(detail);
         }
+        list.sort((e1,e2)=>{
+          return new Date(e1.time) - new Date(e2.time);
+        });
+        list.reverse();
         callback({data : list});
         return;
-      }    
-      
+      }         
   } catch (err) {
     callback({data : "chat failed"});
     console.log(err);
@@ -791,5 +794,58 @@ export const HandleSendMessage = async (data, body, callback)=>{
   }
 }
 
+//-------------------------route (/connect/user/tochat)------------------//
+
+export const HandleConnectUserToChat = async (data, body, callback)=>{
+  try {
+      let username = data;
+      let receiver = body.name;
+      
+      const exist = await UserSchemaModel.findOne({username : username});
+      const existone = await UserSchemaModel.findOne({username : receiver});
+      if(exist && existone){
+        let flag1 = false;
+        let flag2 = false;
+        let resone;
+        let restwo;
+        for(let x of exist.chatusers){
+          if(x.user === receiver){
+            flag1 = true;
+          }
+        }
+        if(!flag1){
+          console.log("enter in first if");
+          exist.chatusers = exist.chatusers.concat({user: receiver, userprofile: existone.profile});
+          resone = await exist.save();
+        }
+        for(let x of existone.chatusers){
+          if(x.user === username){
+            flag2 = true;
+          }
+        }
+        if(!flag2){
+          console.log("enter in second if");
+          existone.chatusers = existone.chatusers.concat({user: username, userprofile: exist.profile});
+          restwo = await existone.save();
+        }
+        if(resone || restwo){
+          callback({data : "success"});
+          return;
+        }else{
+          if(flag1 && flag2){
+            callback({data : "success"});
+            return;
+          }else{
+            callback({data : "Connection not found"});
+            return;
+          }
+        }
+      }
+      
+  } catch (err) {
+    callback({data : "Failed to connect"});
+    console.log(err);
+  }
+}
 
 export default HandleAuth;

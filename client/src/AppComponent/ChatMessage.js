@@ -199,9 +199,13 @@ function ChatMessage() {
                             
                           </ul>
                         </div>
-
+                        
+                        <div class="chat-floating-container">
+                        <Link to="/follower/xnjh7GK/following/jHxh4nkNmn9f6jn0jHNBuhkVGjkj267sbJVcc">
+                        <div class="chat-floating-button">+</div>
+                        </Link>
                       </div>
-
+                      </div>
                     </div>
                   
                     {chatlist.length>0 ?

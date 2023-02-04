@@ -20,6 +20,7 @@ import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import FollowersList from './AppComponent/FollowersList.js';
 import FollowingList from './AppComponent/FollowingList.js';
+import AddChatUser from './AppComponent/AddChatUser.js';
 
 
 function App() {
@@ -45,6 +46,7 @@ function App() {
               <Route path='/edit/HGxdvh54/profile/cjnuw287dbhiTFrxdsnbhYgfnknGYG388' element={<EditComponent/>}></Route>
               <Route path='/see/list/followers/UHSunkw7368sbnkBqoiKHdu823jkonxd4uhH' element={<FollowersList/>}></Route>
               <Route path='/see/list/following/B6CXDFS388BJGsm0i2cn8hehlkaLIUdfe7fd' element={<FollowingList/>}></Route>
+              <Route path='/follower/xnjh7GK/following/jHxh4nkNmn9f6jn0jHNBuhkVGjkj267sbJVcc' element={<AddChatUser/>}></Route>
               <Route path='/logout' element={<Logout/>}></Route>
               <Route path='*' element={<ErrorPage/>}></Route>
               </Routes>

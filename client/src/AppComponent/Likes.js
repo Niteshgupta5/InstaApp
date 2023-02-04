@@ -28,7 +28,11 @@ function Likes() {
            logstate(notloged(false));
            navigate('/');
          }else{
-           setLikepostdata(data.msg);
+          if (data.msg === "No Post to display") {
+            setLikepostdata([]);
+          } else {
+            setLikepostdata(data.msg);
+          }
          }
       } catch (err) {
         console.log(err);

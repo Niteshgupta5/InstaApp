@@ -10,6 +10,41 @@ function FollowingList() {
   const navigate = useNavigate();
   const [following, setFollowing] = useState([]);
 
+  const connectToChat = async (e) =>{
+    try {
+         e.preventDefault();
+         let username = e.target.value;
+         const apiurl = "/connect/user/tochat";
+         const res = await fetch(apiurl,{method: 'POST',
+         headers: { 
+           Accept: "application/json",
+           "Content-Type": "application/json"
+         },
+         credentials: "include",
+         body: JSON.stringify({name: username})
+       })
+     
+       const data = await res.json();
+       if(data){
+       if(data.msg === "Unauthorized: No token provided"){
+         toast.error(data.msg);
+         logstate(notloged(false));
+         navigate('/');
+       }else{
+          if (data.msg === "success") {
+            navigate('/eodneddxc/api/message/ioopqihrnmncpowejnop243jsiqjl14vghywtsjyuor');
+          }
+       }
+      }else{
+        return;
+      }
+    } catch (err) {
+      console.log(err);
+      logstate(notloged(false));
+      navigate('/');
+    }       
+  };
+
     const fetchFollowing = async () =>{
 
         try {
@@ -45,7 +80,7 @@ function FollowingList() {
 
   return (
     <>
-       <div className="container mt-5">
+       <div className="container mt-5" id='followinglistdiv'>
         <div className="d-flex justify-content-center row">
             <div className="col-md-6">
                 <div className="p-3 bg-white text-center">
@@ -62,7 +97,7 @@ function FollowingList() {
                                     <div className="d-flex flex-column align-items-start ml-2" style={{marginLeft: "10px"}}><span className="font-weight-bold">{ele.followingto}</span></div>
                                    </div>
                                    <div className="d-flex flex-row align-items-center mt-2">
-                                     <button className="btn btn-outline-primary btn-sm" type="button" value={ele.username}><i className="fas fa-paper-plane" style={{color: "#3b71ca"}}></i></button>
+                                     <button className="btn btn-outline-primary btn-sm" type="button" value={ele.followingto} onClick={connectToChat}><i className="fas fa-paper-plane" style={{color: "#3b71ca"}}></i></button>
                                    </div>
                                   </div></>
                                   )

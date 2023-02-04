@@ -6,7 +6,7 @@ import HandleAuth from './Auth.js';
 import { HandleLogin, HandleProfile, HandleLatestPosts, HandleCreatePost, HandleSearchData, 
   HandleFollow, HandleUnFollow,HandlePostLike, HandleLikedPost, HandlePostUnLike, HandleDeletePost,
    HandleChatlist, HandleComment, HandleEditProfile, HandleFetchProfile, HandleOtp, HandleVerifyOtp, 
-   HandleFollowersList, HandleFollowingList, HandleConversationList, HandleSendMessage} from './Auth.js';
+   HandleFollowersList, HandleFollowingList, HandleConversationList, HandleSendMessage,HandleConnectUserToChat} from './Auth.js';
 import Authenticate from './Authenticate.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -148,6 +148,12 @@ app.post('/fetch/following/list', Authenticate,(req,res)=>{
 
 app.post('/user/conversation/list', Authenticate,(req,res)=>{
   HandleConversationList(req.rootUsername, req.body, function(result){
+    res.send({msg: result.data});
+  });
+});
+
+app.post('/connect/user/tochat', Authenticate,(req,res)=>{
+  HandleConnectUserToChat(req.rootUsername, req.body, function(result){
     res.send({msg: result.data});
   });
 });
