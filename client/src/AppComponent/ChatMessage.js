@@ -18,6 +18,12 @@ function ChatMessage() {
   const [message, setMessage] = useState("");
   const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
+  const ScrolldivtoBottom = ()=>{
+    const target = document.getElementById('scrollbardiv');
+    target.scrollTop = target.scrollHeight;
+    return;
+  }
+
   const getnewTime = (date)=>{
     let hour = date.getHours();
     let ampm = hour>=12 ? "PM" : "AM";
@@ -66,10 +72,12 @@ function ChatMessage() {
     }else{
        setMessage("");
        if(data.msg === "success"){
+          ScrolldivtoBottom();
           openChat(chatuser);
        }
     }
    }
+   
  } catch (err) {
    console.log(err);
    logstate(notloged(false));
@@ -97,14 +105,16 @@ function ChatMessage() {
       logstate(notloged(false));
       navigate('/');
     }else{
-       setConversationlist(data.msg); 
+        ScrolldivtoBottom();
+       setConversationlist(data.msg);
     }
-   }else{setConversationlist([])}
+   }else{ScrolldivtoBottom();setConversationlist([]);}
  } catch (err) {
    console.log(err);
    logstate(notloged(false));
    navigate('/');
  }
+  ScrolldivtoBottom();
   }
 
     const fetchChat = async () =>{
@@ -245,6 +255,7 @@ function ChatMessage() {
                                           </div></>)
                                       }
                                   })
+                                  
                                 }
                           </>) : (<>
                           <div className='d-flex justify-content-center text-center' style={{flexDirection: "column"}}>
@@ -253,7 +264,7 @@ function ChatMessage() {
                           </div>
                           </>)
                         }
-                      
+                     
                       </div>
                       
                       <div className="text-muted d-flex justify-content-start align-items-center pe-3 pt-3 mt-2">
@@ -269,6 +280,7 @@ function ChatMessage() {
                         <a className="ms-3" href="#!"><i className="fas fa-smile" style={{color: "#fff"}}></i></a>
                       </div>
                       </div>
+                      
                       </>) : (<><div className='col-md-6 col-lg-7 col-xl-8' style={{textAlign: "center",margin: "auto"}}><p style={{fontSize: "24px"}}>Select a conversation to start a chat</p></div></>)    
                     }
                     </>) : (<><div className="col-md-6 col-lg-7 col-xl-8" style={{textAlign: "center",margin: "auto"}}><p style={{fontSize: "24px"}}>Click<Link to="/search/user/cisdrUJnkcn355KHihdwp75oohYUiuxJoijwd76r46cdk" style={{color:"blue"}}> here </Link>to start a chat</p></div></>)
@@ -283,6 +295,7 @@ function ChatMessage() {
 
         </div>
       </section>
+      
     </>
   )
 }
